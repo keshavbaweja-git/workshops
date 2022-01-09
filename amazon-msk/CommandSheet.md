@@ -92,8 +92,10 @@ kafka-topics.sh --zookeeper $MY_ZK --delete --topic ExampleTopic10
 # Partition Reassignment
 ## 14. Reassign partitions
 ``` 
-# Create a file topics-to-move.json with following contents
-# { "topics": [ { "topic" : "ExampleTopic10"}], "version":1}
+# Create a file topics-to-move.json
+cat > topics-to-move.json <<EOF
+{ "topics": [ { "topic" : "ExampleTopic10"}], "version":1}
+EOF
 
 kafka-reassign-partitions.sh --zookeeper $MY_ZK \
 --topics-to-move-json-file topics-to-move.json \
@@ -109,6 +111,7 @@ kafka-reassign-partitions.sh --zookeeper $MY_ZK \
 --reassignment-json-file expand-cluster-reassignment.json \
 --verify
 ```
+
 # Monitoring - Prometheus
 ## 15. Run Prometheus in a Docker container
 ```
