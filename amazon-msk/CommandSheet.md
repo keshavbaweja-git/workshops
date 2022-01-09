@@ -237,18 +237,25 @@ kafka-console-consumer.sh \
 ## 26. Setup topic authorization
 ```
 kafka-acls.sh \
+--add \
 --authorizer-properties \
 zookeeper.connect=$MY_ZK \
---add \
 --allow-principal User:CN=msk-client \
 --operation Read \
 --operation Write \
 --topic ExampleTopic10
 
 kafka-acls.sh \
+--list \
 --authorizer-properties \
 zookeeper.connect=$MY_ZK \
---list \
+--topic ExampleTopic10
+
+kafka-acls.sh \
+--remove \
+--authorizer-properties \
+zookeeper.connect=$MY_ZK \
+--topic ExampleTopic10
 ```
 
 # Appendix
