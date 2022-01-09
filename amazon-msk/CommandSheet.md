@@ -158,11 +158,7 @@ keytool -certreq \
 -keypass password
 
 sed -i \
-'s/-----BEGIN NEW CERTIFICATE REQUEST-----/-----BEGIN CERTIFICATE REQUEST-----/' \
-client-cert-sign-request
-
-sed -i \
-'s/-----END NEW CERTIFICATE REQUEST-----/-----END CERTIFICATE REQUEST-----/' \
+'s/NEW //' \
 client-cert-sign-request
 ```
 
