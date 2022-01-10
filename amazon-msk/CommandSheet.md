@@ -257,6 +257,33 @@ kafka-acls.sh \
 zookeeper.connect=$MY_ZK \
 --topic ExampleTopic10
 ```
+# Public access
+## 27. Public access with AWS IAM
+Set up an Amazon MSK cluster with AWS IAM authentication mechanism. Please ensure all requirements for public access as documented [here](https://docs.aws.amazon.com/msk/latest/developerguide/public-access.html) are met.
+```
+# Option 1: Specify AWS Access Key and AWS Secret Key as environment variables
+docker run -p 8080:8080 \
+-e KAFKA_CLUSTERS_0_NAME=msk-cluster \
+-e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=<public-endpoints-iam-authentication-bootstrap-servers> \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=SASL_SSL \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=AWS_MSK_IAM \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SASL_CLIENT_CALLBACK_HANDLER_CLASS=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG='software.amazon.msk.auth.iam.IAMLoginModule required awsProfileName="default";' \
+-e AWS_ACCESS_KEY=<aws-access-key> \
+-e AWS_SECRET_KEY=<aws-secret-key> \
+-d provectuslabs/kafka-ui:latest
+
+# Option 2: Mount the folder holding AWS credentials
+docker run -p 8080:8080 \
+-e KAFKA_CLUSTERS_0_NAME=msk-cluster \
+-e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=<public-endpoints-iam-authentication-bootstrap-servers> \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=SASL_SSL \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=AWS_MSK_IAM \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SASL_CLIENT_CALLBACK_HANDLER_CLASS=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
+-e KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG='software.amazon.msk.auth.iam.IAMLoginModule required awsProfileName="default";' \
+-v <path-to-aws-credentials-folder>:/root/.aws \
+-d provectuslabs/kafka-ui:latest
+```
 
 # Appendix
 ## Install AWS CLI v2
