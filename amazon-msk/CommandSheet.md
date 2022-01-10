@@ -9,7 +9,7 @@ aws --version
 
 ## 2. Uninstall AWS CLI v1
 ```
-sudo pip uninstall awscli
+pip uninstall awscli
 ```
 
 ## 3. Add AWS CLI v2 to PATH
