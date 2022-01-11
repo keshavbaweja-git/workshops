@@ -114,6 +114,7 @@ kafka-reassign-partitions.sh --zookeeper $MY_ZK \
 
 # Monitoring - Prometheus
 ## 15. Run Prometheus in a Docker container
+Create Prometheus configuration file and targets file as per instructions [here](https://catalog.us-east-1.prod.workshops.aws/v2/workshops/5e7795af-4545-4711-9c19-b85bfd6455a9/en-US/openmonitoring/installwithdocker)
 ```
 sudo docker run -d -p 9090:9090 \
 --name=prometheus \
