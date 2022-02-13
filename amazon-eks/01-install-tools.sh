@@ -31,6 +31,12 @@ sudo mv -v /tmp/eksctl /usr/local/bin
 echo 'source <(eksctl completion bash)' >>~/.bashrc
 echo "Installed eksctl"
 
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+helm completion bash >> ~/.bash_completion
+. /etc/profile.d/bash_completion.sh
+. ~/.bash_completion
+helm version --short
+helm repo add stable https://charts.helm.sh/stable
 
 
 pip install --user --upgrade boto3
