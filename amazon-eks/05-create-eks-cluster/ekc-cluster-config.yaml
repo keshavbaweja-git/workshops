@@ -15,8 +15,6 @@ managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 2
   instanceType: t3.small
-  ssh:
-    enableSsm: true
 
 cloudWatch:
   clusterLogging:
