@@ -11,6 +11,12 @@ availabilityZones:
 - ap-southeast-1b
 - ap-southeast-1c
 
+addons:
+- name: vpc-cni
+- name: kube-proxy
+- name: coredns
+- name: aws-ebs-csi-driver
+
 managedNodeGroups:
 - name: nodegroup
   desiredCapacity: 2
