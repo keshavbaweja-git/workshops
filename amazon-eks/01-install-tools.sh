@@ -18,13 +18,19 @@ echo "Installed aws cli v2"
 
 sudo curl --silent --location -o /usr/local/bin/kubectl \
 https://dl.k8s.io/release/v1.22.0/bin/linux/amd64/kubectl
-
 sudo chmod +x /usr/local/bin/kubectl
 echo "Installed kubectl"
-
 
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >>~/.bashrc
+
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv -v /tmp/eksctl /usr/local/bin
+echo 'source <(eksctl completion bash)' >>~/.bashrc
+echo "Installed eksctl"
+
+
 
 pip install --user --upgrade boto3
