@@ -1,7 +1,7 @@
 apiVersion: vpcresources.k8s.aws/v1beta1
 kind: SecurityGroupPolicy
 metadata:
-  name: nginx-sgp
+  name: mybusybox-sgp
 spec:
   podSelector:
     matchLabels:
