@@ -1,0 +1,11 @@
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: nginx-sgp
+spec:
+  podSelector:
+    matchLabels:
+      app: mynginx
+  securityGroups:
+    groupIds:
+      - ${NGINX_POD_SG_ID}
