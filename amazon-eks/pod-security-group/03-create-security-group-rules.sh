@@ -2,16 +2,17 @@
 
 for i in 'NGINX_POD_SG_ID' 'BUSYBOX_POD_SG_ID'
 do
-echo ${!i} ${NODE_GROUP_SG_ID}
+echo "NGINX_POD_SG_ID: ${!i}"
+echo "CLUSTER_SG_ID: ${CLUSTER_SG_ID}"
 
 aws ec2 authorize-security-group-ingress \
---group-id ${NODE_GROUP_SG_ID} \
+--group-id ${CLUSTER_SG_ID} \
 --protocol tcp \
 --port 53 \
 --source-group ${!i}
 
 aws ec2 authorize-security-group-ingress \
---group-id ${NODE_GROUP_SG_ID} \
+--group-id ${CLUSTER_SG_ID} \
 --protocol udp \
 --port 53 \
 --source-group ${!i}
