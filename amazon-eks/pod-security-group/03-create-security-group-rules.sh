@@ -20,5 +20,5 @@ done
 aws ec2 authorize-security-group-ingress \
 --group-id ${NGINX_POD_SG_ID} \
 --protocol tcp \
---port 53 \
+--port 80 \
 --source-group ${BUSYBOX_POD_SG_ID}
