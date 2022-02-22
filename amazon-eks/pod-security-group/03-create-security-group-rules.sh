@@ -16,6 +16,12 @@ aws ec2 authorize-security-group-ingress \
 --protocol udp \
 --port 53 \
 --source-group ${!i}
+
+aws ec2 authorize-security-group-ingress \
+--group-id ${!i} \
+--protocol all \
+--port all \
+--source-group ${CLUSTER_SG_ID}
 done
 
 aws ec2 authorize-security-group-ingress \
