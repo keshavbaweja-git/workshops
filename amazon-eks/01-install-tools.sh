@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo yum update -y
+sudo yum update -y -q
 sudo yum install -y jq gettext bash-completion moreutils
 
 pip install --upgrade pip
