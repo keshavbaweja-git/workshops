@@ -1,0 +1,22 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AliasBasedIAMPolicy",
+            "Effect": "Allow",
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "arn:aws:kms:*:646297494209:key/*",
+            "Condition": {
+                "StringLike": {
+                    "kms:RequestAlias": "alias/testkey"
+                }
+            }
+        }
+    ]
+}
