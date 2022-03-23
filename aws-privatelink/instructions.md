@@ -26,7 +26,7 @@ When complete, this stack would have deployed
 ### 3. Configure ECS service security group
 The ECS service created by the CDK stack has a security group associated with it. At this moment, this security group does not allow inbound traffic from private NLB provisioned. Due to this the health checks for NLB are failing and the ECS task is being recreated repeatedly. Let's correct this by updating the ECS service security group.
 
-Determine the internal IP addresses assigned to private NLB
+- Determine the internal IP addresses assigned to private NLB
 ```
 aws ec2 describe-network-interfaces \
 --filters Name=description,Values="ELB net/<load-balancer-name>/<load-balancer-id>" \
@@ -34,3 +34,6 @@ aws ec2 describe-network-interfaces \
 --output text
 ```
 ![Private NLB Internal IPs](.assets/private-nlb-internal-ips.png)
+
+- Now we add two inbound rules to the security group associated with the ECS service to allow traffic from private NLB internal IP addresses.
+![ECS Service Security Group inbound rules](.assets/ecs-service-security-group-inbound-rules.png)
