@@ -6,4 +6,10 @@ git clone
 cd workshops/aws-privatelink/bin
 ./install-tools.sh
 ```
-### 3. 
+### 3. Deploy ECS service
+```
+cd ~/environment/workshops/aws-privatelink/cdk-stack/my-service
+cdk synth
+cdk bootstrap
+cdk deploy
+```
