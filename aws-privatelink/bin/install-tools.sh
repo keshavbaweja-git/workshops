@@ -18,15 +18,19 @@ echo "Installed aws cli v2"
 
 cd /tmp
 wget https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
-tar -C ~/environment/ -xvzf apache-maven-3.8.5-bin.tar.gz
+tar -C ~/environment/ -xzf apache-maven-3.8.5-bin.tar.gz
 echo "PATH=$PATH:$HOME/environment/apache-maven-3.8.5/bin" >> ~/.bash_profile
 source ~/.bash_profile
 rm /tmp/apache-maven-3.8.5-bin.tar.gz
-echo "Installed Maven"
+echo "Installed Maven version"
 mvn -v
 
-npm install -g aws-cdk
-echo "Installed CDK"
+npm install -g npm@latest
+"Installed latest npm version"
+npm -v
+
+npm install -g aws-cdk --force
+echo "Installed latest CDK version"
 cdk --version
 
 ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
