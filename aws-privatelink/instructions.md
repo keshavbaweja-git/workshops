@@ -10,6 +10,5 @@ cd workshops/aws-privatelink/bin
 ```
 cd ~/environment/workshops/aws-privatelink/cdk-stack/my-service
 cdk synth
-cdk bootstrap
 cdk deploy
 ```
