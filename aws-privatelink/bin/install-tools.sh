@@ -26,7 +26,7 @@ echo "Installed Maven version"
 mvn -v
 
 npm install -g npm@latest
-"Installed latest npm version"
+echo "Installed latest npm version"
 npm -v
 
 npm install -g aws-cdk --force
