@@ -43,6 +43,7 @@ aws ec2 describe-network-interfaces \
 
 ### 5. Test private NLB access
 Let's try to access the ECS service from the NLB private DNS name. This will not work as the Cloud9 IDE is hosted in a different VPC with no route to the private NLB in the VPC created by our CDK stack.
+![NLB Failure](.assets/nlb-failure.png)
 
 ### 6. Create VPC Endpoint Service
 ![Endpoint service](.assets/endpoint-service.png)
