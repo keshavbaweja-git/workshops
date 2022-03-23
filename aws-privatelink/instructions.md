@@ -37,3 +37,7 @@ aws ec2 describe-network-interfaces \
 
 - Now we add two inbound rules to the security group associated with the ECS service to allow traffic from private NLB internal IP addresses.
 ![ECS Service Security Group inbound rules](.assets/ecs-service-security-group-inbound-rules.png)
+
+- Once done, the Load Balance Target Group will show up as healthy.
+![Target Group](.assets/target-group.png)
+
