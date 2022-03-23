@@ -2,7 +2,7 @@
 ### 2. Install tools
 ```
 cd ~/environment
-git clone 
+git clone https://github.com/keshavbaweja-git/workshops.git
 cd workshops/aws-privatelink/bin
 ./install-tools.sh
 ```
