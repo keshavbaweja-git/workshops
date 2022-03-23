@@ -12,3 +12,5 @@ cd ~/environment/workshops/aws-privatelink/cdk-stack/my-service
 cdk synth
 cdk deploy
 ```
+You will be prompted to proceed with stack deployment
+![cdk deploy](.assets/cdk-deploy.png)
