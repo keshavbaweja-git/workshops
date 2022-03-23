@@ -48,3 +48,7 @@ Let's try to access the ECS service from the NLB private DNS name. This will not
 ### 6. Create VPC Endpoint Service
 ![Endpoint service](.assets/endpoint-service.png)
 ![Allow principals](.assets/allow-principals.png)
+
+### 6. Create VPC Endpoint 
+![Endpoint](.assets/create-endpoint-1.png)
+![Endpoint](.assets/create-endpoint-2.png)
