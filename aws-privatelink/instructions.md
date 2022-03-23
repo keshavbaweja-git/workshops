@@ -22,3 +22,15 @@ When complete, this stack would have deployed
 ![ECS Service](.assets/ecs-cluster.png)
 - A Private Network Load Balancer with name starting with "MySer-Servi"
 ![Private NLB](.assets/private-nlb.png)
+
+### 3. Configure ECS service security group
+The ECS service created by the CDK stack has a security group associated with it. At this moment, this security group does not allow inbound traffic from private NLB provisioned. Due to this the health checks for NLB are failing and the ECS task is being recreated repeatedly. Let's correct this by updating the ECS service security group.
+
+Determine the internal IP addresses assigned to private NLB
+```
+aws ec2 describe-network-interfaces \
+--filters Name=description,Values="ELB net/<load-balancer-name>/<load-balancer-id>" \
+--query 'NetworkInterfaces[*].PrivateIpAddresses[*].PrivateIpAddress' \
+--output text
+```
+![Private NLB Internal IPs](.assets/private-nlb-internal-ips.png)
