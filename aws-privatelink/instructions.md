@@ -50,12 +50,12 @@ Let's try to access the ECS service from the NLB private DNS name. This will not
 ![Allow principals](.assets/allow-principals.png)
 
 ### 7. Create VPC Endpoint
-Now let's create a VPC endpoint in default VPC. I select "Other endpoint services" in the Service category and specify the endpoint service name created in step 6. You can verify the service name to ensure it is correct. I then specify the default VPC and subnets where Elastic Network Interfaces (ENIs) for the endpoint will be placed. I also select default security group to be associated with the endpoint ENIs.
+Now let's create a VPC endpoint in default VPC. Select "Other endpoint services" in the Service category and specify the endpoint service name created in step 6. You can verify the service name to ensure it is correct. Then specify the default VPC and subnets where Elastic Network Interfaces (ENIs) for the endpoint will be placed. Select default security group to be associated with the endpoint ENIs.
 ![Endpoint](.assets/create-endpoint-1.png)
 ![Endpoint](.assets/create-endpoint-2.png)
 
 ### 8. Accept VPC Endpoint connection
-Once a VPC Endpoint connection request has been submitted, an approval will show up for the VPC Endpoint Service. I approve the VPC Endpoint connection request.
+Once a VPC Endpoint connection request has been submitted, an approval will show up for the VPC Endpoint Service. Let's approve the VPC Endpoint connection request.
 ![Endpoint](.assets/accept-connection-1.png)
 ![Endpoint](.assets/accept-connection-2.png)
 
