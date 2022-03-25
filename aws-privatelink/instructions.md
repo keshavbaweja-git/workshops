@@ -64,3 +64,4 @@ Once a VPC Endpoint connection request has been submitted, an approval will show
 ### 10. Test service access via VPC endpoint
 Let's now try accessing the service via the endpoint created.
 ![Access service](.assets/test-service-endpoint.png)
+Success! we have been able to access the ECS service deployed in a different VPC through VPC endpoint service over AWS network backbone, without exposing the service over Internet and also without setting up any network routing between the VPCs. Although in this example we had the two VPCs in the same account, this is also applicable similarly to VPCs in different accounts and different regions.
