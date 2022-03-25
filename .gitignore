@@ -2,3 +2,4 @@ target/
 .idea/
 .vscode/
 cdk.out/
+.DS_Store
