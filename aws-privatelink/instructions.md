@@ -18,7 +18,7 @@ When complete, this stack would have deployed
 - A VPC with public and private subnets with name starting with "MyServiceStack/" 
 - An ECS Cluster with name starting with "MyServiceStack"
 ![ECS Cluster](.assets/ecs-cluster.png)
-- An ECS Service with name backed by two tasks "MyServiceStack-Service" with one task instance
+- An ECS Service with name starting with "MyServiceStack-Service" with one task instance
 ![ECS Service](.assets/ecs-cluster.png)
 - A Private Network Load Balancer with name starting with "MySer-Servi"
 ![Private NLB](.assets/private-nlb.png)
@@ -49,11 +49,18 @@ Let's try to access the ECS service from the NLB private DNS name. This will not
 ![Endpoint service](.assets/endpoint-service.png)
 ![Allow principals](.assets/allow-principals.png)
 
-### 7. Create VPC Endpoint 
+### 7. Create VPC Endpoint
+Now let's create a VPC endpoint in default VPC. I select "Other endpoint services" in the Service category and specify the endpoint service name created in step 6. You can verify the service name to ensure it is correct. I then specify the default VPC and subnets where Elastic Network Interfaces (ENIs) for the endpoint will be placed. I also select default security group to be associated with the endpoint ENIs.
 ![Endpoint](.assets/create-endpoint-1.png)
 ![Endpoint](.assets/create-endpoint-2.png)
 
 ### 8. Accept VPC Endpoint connection
+Once a VPC Endpoint connection request has been submitted, an approval will show up for the VPC Endpoint Service. I approve the VPC Endpoint connection request.
 ![Endpoint](.assets/accept-connection-1.png)
 ![Endpoint](.assets/accept-connection-2.png)
 
+### 9. Update security group for VPC endpoint
+
+### 10. Test service access via VPC endpoint
+Let's now try accessing the service via the endpoint created.
+![Access service](.assets/test-service-endpoint.png)
