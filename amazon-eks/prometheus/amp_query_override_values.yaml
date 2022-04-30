@@ -1,0 +1,7 @@
+serviceAccount:
+    name: "iamproxy-service-account"
+    annotations:
+      eks.amazonaws.com/role-arn: "${IAM_PROXY_PROMETHEUS_ROLE_ARN}"
+grafana.ini:
+  auth:
+    sigv4_auth_enabled: true
