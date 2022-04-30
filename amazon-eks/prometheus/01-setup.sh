@@ -1,6 +1,6 @@
 ##!/bin/bash
 CLUSTER_NAME=mycluster1
-AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 OIDC_PROVIDER=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
 
 PROM_SERVICE_ACCOUNT_NAMESPACE=prometheus
@@ -9,7 +9,70 @@ SERVICE_ACCOUNT_NAME=iamproxy-service-account
 SERVICE_ACCOUNT_IAM_ROLE=EKS-AMP-ServiceAccount-Role
 SERVICE_ACCOUNT_IAM_ROLE_DESCRIPTION="IAM role to be used by a K8s service account with write access to AMP"
 SERVICE_ACCOUNT_IAM_POLICY=AWSManagedPrometheusWriteAccessPolicy
-SERVICE_ACCOUNT_IAM_POLICY_ARN=arn:aws:iam::$AWS_ACCOUNT_ID:policy/$SERVICE_ACCOUNT_IAM_POLICY
+SERVICE_ACCOUNT_IAM_POLICY_ARN=arn:aws:iam::$ACCOUNT_ID:policy/$SERVICE_ACCOUNT_IAM_POLICY
+
+echo "Creating a new trust policy"
+read -r -d '' NEW_TRUST_RELATIONSHIP <<EOF
+ [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::${ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${OIDC_PROVIDER}:sub": "system:serviceaccount:${GRAFANA_SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_NAME}"
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::${ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${OIDC_PROVIDER}:sub": "system:serviceaccount:${PROM_SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_NAME}"
+        }
+      }
+    }
+  ]
+EOF
+
+OLD_TRUST_RELATIONSHIP=$(aws iam get-role --role-name $SERVICE_ACCOUNT_IAM_ROLE --query 'Role.AssumeRolePolicyDocument.Statement[]' --output json)
+COMBINED_TRUST_RELATIONSHIP=$(echo $OLD_TRUST_RELATIONSHIP $NEW_TRUST_RELATIONSHIP | jq -s add)
+echo "Appending to the existing trust policy"
+read -r -d '' TRUST_POLICY <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": ${COMBINED_TRUST_RELATIONSHIP}
+}
+EOF
+echo "${TRUST_POLICY}" > TrustPolicy.json
+
+
+read -r -d '' PERMISSION_POLICY <<EOF
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action":[
+            "aps:RemoteWrite",
+            "aps:QueryMetrics",
+            "aps:GetSeries",
+            "aps:GetLabels",
+            "aps:GetMetricMetadata"
+         ],
+         "Resource":"*"
+      }
+   ]
+}
+EOF
+echo "${PERMISSION_POLICY}" > PermissionPolicy.json
+
 
 aws iam create-policy --policy-name $SERVICE_ACCOUNT_IAM_POLICY --policy-document file://permission-policy.json 
 
