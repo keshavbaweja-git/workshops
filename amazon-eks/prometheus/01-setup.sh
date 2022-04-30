@@ -79,7 +79,7 @@ aws iam create-policy --policy-name $SERVICE_ACCOUNT_IAM_POLICY --policy-documen
 
 SERVICE_ACCOUNT_IAM_ROLE_ARN=$(aws iam create-role \
 --role-name $SERVICE_ACCOUNT_IAM_ROLE \
---assume-role-policy-document file://trust-policy.json \
+--assume-role-policy-document file://TrustPolicy.json \
 --description "$SERVICE_ACCOUNT_IAM_ROLE_DESCRIPTION" \
 --query "Role.Arn" --output text)
 
