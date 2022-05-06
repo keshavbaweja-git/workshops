@@ -5,7 +5,7 @@ k create ns wordsmith
 
 2. Deploy wordsmith application
 ```
-k apply -f k8s-templates/kube-deployment.yaml
+k -n wordsmith apply -f k8s-templates/kube-deployment.yaml
 ```
 
 3. Get the load balance DNS name

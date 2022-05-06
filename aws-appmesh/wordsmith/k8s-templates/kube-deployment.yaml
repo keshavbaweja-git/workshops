@@ -35,6 +35,9 @@ spec:
         - containerPort: 5432
           name: db
         resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
           limits:
             cpu: 1
             memory: 1Gi
@@ -77,6 +80,9 @@ spec:
         - containerPort: 8080
           name: api
         resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
           limits:
             cpu: 1
             memory: 1Gi
@@ -118,6 +124,9 @@ spec:
         - containerPort: 80
           name: words-web
         resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
           limits:
             cpu: 1
             memory: 1Gi
