@@ -4,10 +4,10 @@ metadata:
   name: db
   namespace: wordsmith
 spec:
-  awsName: db-virtual-node
+  awsName: db
   podSelector:
     matchLabels:
-      app: db
+      app: words-db
   listeners:
     - portMapping:
         port: 5432
