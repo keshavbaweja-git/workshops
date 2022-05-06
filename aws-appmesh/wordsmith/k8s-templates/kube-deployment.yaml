@@ -34,6 +34,10 @@ spec:
         ports:
         - containerPort: 5432
           name: db
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
 ---
 apiVersion: v1
 kind: Service
@@ -72,6 +76,10 @@ spec:
         ports:
         - containerPort: 8080
           name: api
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
 ---
 apiVersion: v1
 kind: Service
@@ -109,3 +117,7 @@ spec:
         ports:
         - containerPort: 80
           name: words-web
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
