@@ -12,9 +12,12 @@ echo "Created IAM policy for envoy sidecar permissions"
 # Create an IAM role and service account for the application namespace
 eksctl create iamserviceaccount \
 --cluster $CLUSTER_NAME \
---namespace prod \
+--namespace $APPMESHED_NAMESPACE_NAME \
 --name default \
 --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSAppMeshEnvoySidecarIAMPolicy  \
 --override-existing-serviceaccounts \
 --approve
 echo "Updated IAM role for default SA with envoy policy"
+
+kubectl label namespace $APPMESHED_NAMESPACE_NAME mesh=$APPMESHED_NAMESPACE_NAME
+kubectl label namespace $APPMESHED_NAMESPACE_NAME appmesh.k8s.aws/sidecarInjectorWebhook=enabled
