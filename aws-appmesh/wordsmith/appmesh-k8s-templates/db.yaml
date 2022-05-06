@@ -1,0 +1,29 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: db
+  namespace: wordsmith
+spec:
+  awsName: db-virtual-node
+  podSelector:
+    matchLabels:
+      app: db
+  listeners:
+    - portMapping:
+        port: 5432
+        protocol: tcp  
+  serviceDiscovery:
+    dns:
+      hostname: db.wordsmith.svc.cluster.local
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: db
+  namespace: wordsmith
+spec:
+  awsName: db
+  provider:
+    virtualNode:
+      virtualNodeRef:
+        name: db
