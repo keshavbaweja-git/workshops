@@ -1,0 +1,29 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: words
+  namespace: wordsmith
+spec:
+  awsName: words
+  podSelector:
+    matchLabels:
+      app: words-api
+  listeners:
+    - portMapping:
+        port: 8080
+        protocol: tcp  
+  serviceDiscovery:
+    dns:
+      hostname: words.wordsmith.svc.cluster.local
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: words
+  namespace: wordsmith
+spec:
+  awsName: words
+  provider:
+    virtualNode:
+      virtualNodeRef:
+        name: words
