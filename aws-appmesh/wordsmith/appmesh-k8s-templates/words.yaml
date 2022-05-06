@@ -15,6 +15,10 @@ spec:
   serviceDiscovery:
     dns:
       hostname: words.wordsmith.svc.cluster.local
+  backends:
+    - virtualService:
+        virtualServiceRef:
+          name: db
 ---
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualService
