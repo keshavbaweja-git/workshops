@@ -10,6 +10,7 @@ aws iam create-policy \
 echo "Created IAM policy for envoy sidecar permissions"
 
 # Create an IAM role and service account for the application namespace
+# Add an Annotation to the k8s sa eks.amazonaws.com/role-arn
 eksctl create iamserviceaccount \
 --cluster $CLUSTER_NAME \
 --namespace $APPMESHED_NAMESPACE_NAME \
