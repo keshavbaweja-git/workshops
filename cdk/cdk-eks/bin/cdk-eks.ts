@@ -16,6 +16,7 @@ const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.ContainerInsightsAddOn(),
   new blueprints.addons.AwsLoadBalancerControllerAddOn(),
   new blueprints.addons.VpcCniAddOn(),
+  new blueprints.addons.NginxAddOn(),
   new blueprints.addons.CoreDnsAddOn(),
   new blueprints.addons.KubeProxyAddOn(),
   new blueprints.addons.XrayAddOn(),
