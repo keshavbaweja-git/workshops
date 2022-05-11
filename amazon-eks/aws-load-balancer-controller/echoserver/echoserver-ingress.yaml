@@ -8,7 +8,8 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - http:
+    - host: echoserver.northpinnacle.com
+      http:
         paths:
           - path: /
             pathType: Exact
