@@ -5,6 +5,7 @@ metadata:
   namespace: echoserver
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
 spec:
   ingressClassName: alb
   rules:
