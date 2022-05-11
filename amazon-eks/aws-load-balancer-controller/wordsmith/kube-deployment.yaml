@@ -97,9 +97,10 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
     service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-southeast-1:ACCOUNT_ID:certificate/b0a6c92f-3d1c-46c9-97eb-0f68315cb820
 spec:
   ports:
-    - port: 8081
+    - port: 443
       targetPort: 80
       name: web
   selector:
