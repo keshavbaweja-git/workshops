@@ -38,7 +38,6 @@ aws cognito-idp admin-initiate-auth --auth-flow ADMIN_USER_PASSWORD_AUTH \
 ```
 aws eks associate-identity-provider-config \
 --cluster-name mycluster2 \
---oidc identityProviderConfigName=keshavkb3-userpool,issuerUrl=https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_IgAJpPRbK,clientId=2isa6gqjku0q4vmea9avf6nqd,usernameClaim=email,groupsClaim=cognito:groups,groupsPrefix=gid:
 --oidc identityProviderConfigName=<config-name>,issuerUrl=<ISSUER_URL>,clientId=<CLIENT_ID>,usernameClaim=email,groupsClaim=cognito:groups,groupsPrefix=gid:
 ```
 
