@@ -1,4 +1,4 @@
-1. Deploy CDK stack for Cognito UserPool
+1. Deploy CDK stack to create a Cognito UserPool
 ```
 cd cognito-user-pool
 cdk synth
@@ -23,7 +23,7 @@ aws cognito-idp create-group --group-name secret-reader --user-pool-id $POOL_ID
 aws cognito-idp admin-add-user-to-group --user-pool-id $POOL_ID --username test@example.com --group-name secret-reader
 ```
 
-4. Print ID Token JWT
+4. Print ID Token
 ```
 aws cognito-idp admin-initiate-auth --auth-flow ADMIN_USER_PASSWORD_AUTH \
 --client-id $CLIENT_ID \
