@@ -1,6 +1,8 @@
 1. Update server properties
 ```
 # Add following lines to $KAFKA_HOME/config/server.properties
+listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093
+advertised.listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093
 ssl.truststore.location=/home/ec2-user/kafka-certs/kafka.server.truststore.jks
 ssl.truststore.password=password
 ssl.keystore.location=/home/ec2-user/kafka-certs/kafka.server.keystore.jks
