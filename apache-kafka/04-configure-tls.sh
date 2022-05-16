@@ -4,7 +4,6 @@ cd /home/ec2-user/kafka-certs
 
 
 password=password
-hostname=$(hostname)
 ### Create CA certificate
 echo 'Creating: CA certificate'
 openssl req -new -x509 \
@@ -27,6 +26,7 @@ keytool -keystore kafka.client.truststore.jks \
 -storepass $password -noprompt
 echo 'Created: client truststore'
 
+hostname=$(hostname)
 ext="SAN=DNS:${hostname}"
 ### Create server keystore
 echo 'Creating: server keystore'
@@ -38,7 +38,7 @@ keytool -keystore kafka.server.keystore.jks \
 -ext $ext
 echo 'Created: server keystore'
 
-echo 'Creating, adding: server cert to server keystore'
+echo 'Signing, adding: server cert to server keystore'
 keytool -keystore kafka.server.keystore.jks \
 -alias localhost -certreq -file cert-file \
 -ext $ext \
@@ -55,7 +55,7 @@ keytool -keystore kafka.server.keystore.jks \
 keytool -keystore kafka.server.keystore.jks \
 -alias localhost -importcert -file cert-signed \
 -storepass $password -noprompt
-echo 'Created, added: server cert to server keystore'
+echo 'Signed, added: server cert to server keystore'
 
 ### Create client keystore
 echo 'Creating: client keystore'
@@ -66,7 +66,7 @@ keytool -keystore kafka.client.keystore.jks \
 -dname "CN=client01, OU=SA, O=AWS, L=Singapore, ST=Singapore, C=SG"
 echo 'Created: client keystore'
 
-echo 'Creating, adding: client cert to client keystore'
+echo 'Signing, adding: client cert to client keystore'
 keytool -keystore kafka.client.keystore.jks \
 -alias localhost -certreq -file cert-file-client \
 -storepass $password
@@ -82,5 +82,5 @@ keytool -keystore kafka.client.keystore.jks \
 keytool -keystore kafka.client.keystore.jks \
 -alias localhost -importcert -file cert-signed-client \
 -storepass $password -noprompt
-echo 'Created, added: client cert to client keystore'
+echo 'Signed, added: client cert to client keystore'
 
