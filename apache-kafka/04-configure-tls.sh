@@ -41,6 +41,7 @@ echo 'Created: server keystore'
 echo 'Creating, adding: server cert to server keystore'
 keytool -keystore kafka.server.keystore.jks \
 -alias localhost -certreq -file cert-file \
+-ext $ext \
 -storepass $password
 
 openssl x509 -req -CA ca-cert -CAkey ca-key \
