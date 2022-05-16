@@ -27,6 +27,7 @@ keytool -keystore kafka.client.truststore.jks \
 -storepass $password -noprompt
 echo 'Created: client truststore'
 
+ext="SAN=DNS:${hostname}"
 ### Create server keystore
 echo 'Creating: server keystore'
 keytool -keystore kafka.server.keystore.jks \
@@ -34,7 +35,7 @@ keytool -keystore kafka.server.keystore.jks \
 -validity 365 -genkey \
 -storepass $password -keypass $password \
 -dname "CN=server01, OU=SA, O=AWS, L=Singapore, ST=Singapore, C=SG" \
--ext SAN=DNS:$hostname
+-ext $ext
 echo 'Created: server keystore'
 
 echo 'Creating, adding: server cert to server keystore'
