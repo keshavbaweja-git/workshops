@@ -46,9 +46,7 @@ keytool -keystore kafka.server.keystore.jks \
 
 openssl x509 -req -CA ca-cert -CAkey ca-key \
 -in cert-file -out cert-signed \
--days 365 -CAcreateserial \
--ext $ext \
--passin pass:$password
+-days 365 -CAcreateserial -passin pass:$password
 
 keytool -keystore kafka.server.keystore.jks \
 -alias CARoot -importcert -file ca-cert \
