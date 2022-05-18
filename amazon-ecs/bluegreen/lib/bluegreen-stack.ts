@@ -1,12 +1,12 @@
 import { Stack, StackProps } from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Vpc } from "aws-cdk-lib/aws-ec2";
+import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import {
   ApplicationListener,
   ApplicationLoadBalancer,
   ApplicationProtocol,
-  ListenerAction,
   TargetType
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import { Construct } from "constructs";
@@ -17,9 +17,17 @@ export class BluegreenStack extends Stack {
 
     const vpc = Vpc.fromLookup(this, "VPC", { vpcId: "vpc-02eaa7bdb3bf1573c" });
 
+    const ecsCluster = new ecs.Cluster(this, "EcsCluster", {
+      clusterName: "BluegreenCluster",
+      vpc,
+    });
+
+    this.exportValue(ecsCluster.clusterArn, { name: "EcsClusterArn" });
+
     const loadBalancer = new ApplicationLoadBalancer(this, "LoadBalancer", {
       vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      internetFacing: true,
     });
 
     const tg1 = new elbv2.ApplicationTargetGroup(this, "TG1", {
@@ -33,7 +41,30 @@ export class BluegreenStack extends Stack {
       loadBalancer: loadBalancer,
       defaultTargetGroups: [tg1],
       port: 80,
-      protocol: ApplicationProtocol.HTTP
+      protocol: ApplicationProtocol.HTTP,
     });
+
+    const fargateTaskDefinition = new ecs.FargateTaskDefinition(
+      this,
+      "FargateTaskDefinition",
+      {
+        memoryLimitMiB: 512,
+        cpu: 256,
+      }
+    );
+
+    fargateTaskDefinition.addContainer("EchoServer", {
+      image: ecs.ContainerImage.fromRegistry(
+        "k8s.gcr.io/e2e-test-images/echoserver:2.5"
+      ),
+      portMappings: [{ containerPort: 8080 }],
+    });
+
+    const fargateService = new ecs.FargateService(this, "FargateService", {
+      cluster: ecsCluster,
+      taskDefinition: fargateTaskDefinition,
+    });
+
+    fargateService.attachToApplicationTargetGroup(tg1);
   }
 }
