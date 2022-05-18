@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
+import "source-map-support/register";
+import { BluegreenEcsIamStack } from "../lib/bluegreen-ecs-iam-stack";
 import { BluegreenStack } from "../lib/bluegreen-stack";
 
 const env = {
@@ -9,4 +10,5 @@ const env = {
 };
 
 const app = new cdk.App();
+new BluegreenEcsIamStack(app, "BluegreenEcsIamStack", { env });
 new BluegreenStack(app, "BluegreenStack", { env });
