@@ -7,8 +7,9 @@ import {
   ApplicationListener,
   ApplicationLoadBalancer,
   ApplicationProtocol,
-  TargetType
+  TargetType,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import * as codedeploy from "aws-cdk-lib/aws-codedeploy";
 import { Construct } from "constructs";
 
 export class BluegreenStack extends Stack {
@@ -37,7 +38,7 @@ export class BluegreenStack extends Stack {
       vpc,
     });
 
-    const listener1 = new ApplicationListener(this, "Listener1", {
+    new ApplicationListener(this, "Listener1", {
       loadBalancer: loadBalancer,
       defaultTargetGroups: [tg1],
       port: 80,
@@ -66,5 +67,20 @@ export class BluegreenStack extends Stack {
     });
 
     fargateService.attachToApplicationTargetGroup(tg1);
+
+    const tg2 = new elbv2.ApplicationTargetGroup(this, "TG2", {
+      targetType: TargetType.IP,
+      protocol: ApplicationProtocol.HTTP,
+      port: 80,
+      vpc,
+    });
+
+    const codeDeployEcsApplication = new codedeploy.EcsApplication(
+      this,
+      "CodeDeployEcsApplication",
+      {
+        applicationName: "Bluegreen",
+      }
+    );
   }
 }
