@@ -32,6 +32,7 @@ export class BluegreenStack extends Stack {
     });
 
     const tg1 = new elbv2.ApplicationTargetGroup(this, "TG1", {
+      targetGroupName: "BluegreenTG1",
       targetType: TargetType.IP,
       protocol: ApplicationProtocol.HTTP,
       port: 80,
@@ -62,6 +63,7 @@ export class BluegreenStack extends Stack {
     });
 
     const fargateService = new ecs.FargateService(this, "FargateService", {
+      serviceName: "Bluegreen",
       cluster: ecsCluster,
       taskDefinition: fargateTaskDefinition,
     });
@@ -69,6 +71,7 @@ export class BluegreenStack extends Stack {
     fargateService.attachToApplicationTargetGroup(tg1);
 
     const tg2 = new elbv2.ApplicationTargetGroup(this, "TG2", {
+      targetGroupName: "BluegreenTG2",
       targetType: TargetType.IP,
       protocol: ApplicationProtocol.HTTP,
       port: 80,

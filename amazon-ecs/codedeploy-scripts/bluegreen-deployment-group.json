@@ -1,0 +1,48 @@
+{
+  "applicationName": "Bluegreen",
+  "autoRollbackConfiguration": {
+    "enabled": true,
+    "events": ["DEPLOYMENT_FAILURE"]
+  },
+  "blueGreenDeploymentConfiguration": {
+    "deploymentReadyOption": {
+      "actionOnTimeout": "CONTINUE_DEPLOYMENT",
+      "waitTimeInMinutes": 0
+    },
+    "terminateBlueInstancesOnDeploymentSuccess": {
+      "action": "TERMINATE",
+      "terminationWaitTimeInMinutes": 5
+    }
+  },
+  "deploymentGroupName": "Bluegreen",
+  "deploymentStyle": {
+    "deploymentOption": "WITH_TRAFFIC_CONTROL",
+    "deploymentType": "BLUE_GREEN"
+  },
+  "loadBalancerInfo": {
+    "targetGroupPairInfoList": [
+      {
+        "targetGroups": [
+          {
+            "name": "BluegreenTG1"
+          },
+          {
+            "name": "BluegreenTG2"
+          }
+        ],
+        "prodTrafficRoute": {
+          "listenerArns": [
+            "arn:aws:elasticloadbalancing:region:${ACCOUNT_ID}:listener/app/bluegreen-alb/e5ba62739c16e642/665750bec1b03bd4"
+          ]
+        }
+      }
+    ]
+  },
+  "serviceRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/ecsCodeDeployRole",
+  "ecsServices": [
+    {
+      "serviceName": "Bluegreen",
+      "clusterName": "BluegreenCluster"
+    }
+  ]
+}
