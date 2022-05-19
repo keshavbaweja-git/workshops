@@ -1,0 +1,12 @@
+{
+    "applicationName": "Bluegreen",
+    "deploymentGroupName": "Bluegreen",
+    "revision": {
+        "revisionType": "S3",
+        "s3Location": {
+            "bucket": "keshavkb-3-bluegreen-bucket",
+            "key": "appspec.yaml",
+            "bundleType": "YAML"
+        }
+    }
+}
