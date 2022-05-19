@@ -32,13 +32,13 @@
         ],
         "prodTrafficRoute": {
           "listenerArns": [
-            "arn:aws:elasticloadbalancing:ap-southeast-1:${ACCOUNT_ID}:listener/app/Bluegreen/89b68c3d05b5e533/c4a2eb686d17f32b"
+            "arn:aws:elasticloadbalancing:ap-southeast-1:646297494209:listener/app/Bluegreen/89b68c3d05b5e533/c4a2eb686d17f32b"
           ]
         }
       }
     ]
   },
-  "serviceRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/ecsCodeDeployRole",
+  "serviceRoleArn": "arn:aws:iam::646297494209:role/ecsCodeDeployRole",
   "ecsServices": [
     {
       "serviceName": "Bluegreen",

@@ -1,7 +1,9 @@
 import { Stack, StackProps } from "aws-cdk-lib";
+import * as codedeploy from "aws-cdk-lib/aws-codedeploy";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Vpc } from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
+import { DeploymentControllerType } from "aws-cdk-lib/aws-ecs";
 import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import {
   ApplicationListener,
@@ -9,7 +11,6 @@ import {
   ApplicationProtocol,
   TargetType,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import * as codedeploy from "aws-cdk-lib/aws-codedeploy";
 import { Construct } from "constructs";
 
 export class BluegreenStack extends Stack {
@@ -67,6 +68,7 @@ export class BluegreenStack extends Stack {
       serviceName: "Bluegreen",
       cluster: ecsCluster,
       taskDefinition: fargateTaskDefinition,
+      deploymentController: { type: DeploymentControllerType.CODE_DEPLOY },
     });
 
     fargateService.attachToApplicationTargetGroup(tg1);
