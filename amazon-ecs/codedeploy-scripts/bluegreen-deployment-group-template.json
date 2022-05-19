@@ -32,7 +32,7 @@
         ],
         "prodTrafficRoute": {
           "listenerArns": [
-            "arn:aws:elasticloadbalancing:region:${ACCOUNT_ID}:listener/app/bluegreen-alb/e5ba62739c16e642/665750bec1b03bd4"
+            "arn:aws:elasticloadbalancing:region:${ACCOUNT_ID}:listener/app/Bluegreen/89b68c3d05b5e533/c4a2eb686d17f32b"
           ]
         }
       }

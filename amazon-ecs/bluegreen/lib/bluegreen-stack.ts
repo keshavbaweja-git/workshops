@@ -26,6 +26,7 @@ export class BluegreenStack extends Stack {
     this.exportValue(ecsCluster.clusterArn, { name: "EcsClusterArn" });
 
     const loadBalancer = new ApplicationLoadBalancer(this, "LoadBalancer", {
+      loadBalancerName: "Bluegreen",
       vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
       internetFacing: true,
