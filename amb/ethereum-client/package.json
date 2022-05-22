@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "dependencies": {
+    "aws-sdk": "^2.1109.0",
+    "web3": "^1.7.1",
+    "xhr2": "^0.2.1"
+  }
+}
