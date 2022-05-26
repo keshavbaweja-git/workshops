@@ -15,6 +15,7 @@ const platformTeam = new blueprints.PlatformTeam({
 });
 
 const addOns: Array<blueprints.ClusterAddOn> = [
+  new blueprints.addons.ArgoCDAddOn(),
   new blueprints.addons.AppMeshAddOn(),
   new blueprints.addons.CalicoAddOn(),
   new blueprints.addons.MetricsServerAddOn(),

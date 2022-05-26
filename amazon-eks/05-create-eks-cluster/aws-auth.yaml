@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: "arn:aws:iam::account_id:role/mycluster2-mycluster2Nodegroupmng1ngNodeGroupRole5-U8W40PNB9VHA"
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: "arn:aws:iam::account_id:role/mycluster2-mycluster2MastersRole66547EB4-VMW2YVUU4U69"
+      username: "arn:aws:iam::account_id:role/mycluster2-mycluster2MastersRole66547EB4-VMW2YVUU4U69"
+      groups:
+        - system:masters
+  mapUsers: |
+    - userarn: arn:aws:iam::account_id:user/admin1
+      username: arn:aws:iam::account_id:user/admin1
+      groups:
+        - system:masters
+
+
