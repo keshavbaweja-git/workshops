@@ -5,18 +5,23 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: "arn:aws:iam::account_id:role/mycluster2-mycluster2Nodegroupmng1ngNodeGroupRole5-U8W40PNB9VHA"
+    - rolearn: "arn:aws:iam::$ACCOUNT_ID:role/mycluster2-mycluster2Nodegroupmng1ngNodeGroupRole5-CGB5C26N84S8"
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: "arn:aws:iam::account_id:role/mycluster2-mycluster2MastersRole66547EB4-VMW2YVUU4U69"
-      username: "arn:aws:iam::account_id:role/mycluster2-mycluster2MastersRole66547EB4-VMW2YVUU4U69"
+    - rolearn: "arn:aws:iam::$ACCOUNT_ID:role/mycluster2-mng2-NodeInstanceRole-346HHL5L4HQ9"
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: "arn:aws:iam::$ACCOUNT_ID:role/mycluster2-mycluster2MastersRole66547EB4-7GMS178O1MR8"
+      username: "arn:aws:iam::$ACCOUNT_ID:role/mycluster2-mycluster2MastersRole66547EB4-7GMS178O1MR8"
       groups:
         - system:masters
   mapUsers: |
-    - userarn: arn:aws:iam::account_id:user/admin1
-      username: arn:aws:iam::account_id:user/admin1
+    - userarn: arn:aws:iam::$ACCOUNT_ID:user/admin1
+      username: arn:aws:iam::$ACCOUNT_ID:user/admin1
       groups:
         - system:masters
 
