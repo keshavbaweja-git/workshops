@@ -7,7 +7,7 @@ POLICY_ARN=$(aws --region ap-southeast-1 --query Policy.Arn --output text iam cr
     "Statement": [ {
         "Effect": "Allow",
         "Action": ["secretsmanager:CreateSecret","secretsmanager:UpdateSecret","secretsmanager:DescribeSecret","secretsmanager:GetSecretValue","secretsmanager:PutSecretValue","secretsmanager:ReplicateSecretToRegions","secretsmanager:TagResource"],
-        "Resource": ["arn:aws:secretsmanager:ap-southeast-1:646297494209:secret:goquorum-node-*", "arn:aws:secretsmanager:ap-southeast-1:646297494209:secret:besu-node-*"]
+        "Resource": ["arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:goquorum-node-*", "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:besu-node-*"]
     } ]
 }')
 
