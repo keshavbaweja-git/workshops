@@ -6,8 +6,8 @@ import { KubernetesVersion, NodegroupAmiType } from "aws-cdk-lib/aws-eks";
 import { ArnPrincipal } from "aws-cdk-lib/aws-iam";
 
 const app = new cdk.App();
-const account = process.env.ACCOUNT_ID;
-const region = "us-east-1";
+const account = process.env.CDK_ACCOUNT_ID;
+const region = process.env.CDK_REGION;
 
 const platformTeam = new blueprints.PlatformTeam({
   name: "platform-admin",
@@ -44,7 +44,14 @@ const clusterProvider = new blueprints.GenericClusterProvider({
     {
       id: "mng1",
       amiType: NodegroupAmiType.AL2_X86_64,
-      instanceTypes: [new InstanceType("m5.large")],
+      instanceTypes: [new InstanceType("m5zn.2xlarge")],
+      diskSize: 25,
+      nodeGroupSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
+    },
+    {
+      id: "mng2",
+      amiType: NodegroupAmiType.AL2_X86_64,
+      instanceTypes: [new InstanceType("z1d.2xlarge")],
       diskSize: 25,
       nodeGroupSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
     },
@@ -52,11 +59,11 @@ const clusterProvider = new blueprints.GenericClusterProvider({
 });
 
 blueprints.EksBlueprint.builder()
-  .name("mycluster2")
+  .name("mycluster1")
   .account(account)
   .region(region)
   .addOns(...addOns)
   .clusterProvider(clusterProvider)
   .teams(platformTeam)
   .enableControlPlaneLogTypes("api")
-  .build(app, "mycluster2");
+  .build(app, "mycluster1");
