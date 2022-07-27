@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
 import "source-map-support/register";
-import { PinnacleStack } from "../lib/pinnacle-stack";
+import { PinnacleStackUsEast1 } from "../lib/pinnacle-stack-us-east-1";
 
 const app = new cdk.App();
-new PinnacleStack(app, "PinnacleStack", {
+new PinnacleStackUsEast1(app, "PinnacleStack", {
   env: {
     account: process.env.CDK_ACCOUNT_ID,
-    region: "ap-southeast-1",
+    region: process.env.CDK_REGION_ID,
   },
 });
