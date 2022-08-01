@@ -27,5 +27,19 @@ export class PinnacleIamStack extends Stack {
       exportName: "PinnacleInstanceRoleArn",
       value: pinnacleInstanceRole.roleArn,
     });
+
+    const pinnacleInstanceProfile = new iam.CfnInstanceProfile(
+      this,
+      "PinnacleInstanceProfile",
+      {
+        roles: [pinnacleInstanceRole.roleName],
+        instanceProfileName: "PinnacleInstanceProfile",
+      }
+    );
+
+    new CfnOutput(this, "PinnacleInstanceProfileArn", {
+      exportName: "PinnacleInstanceProfileArn",
+      value: pinnacleInstanceProfile.attrArn,
+    });
   }
 }
