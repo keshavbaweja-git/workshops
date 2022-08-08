@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 import { Vpc } from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import { ContainerImage } from "aws-cdk-lib/aws-ecs";
+import * as ecsPatterns from "aws-cdk-lib/aws-ecs-patterns";
 
 export class AmazonEcsFirelensStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -51,19 +52,14 @@ export class AmazonEcsFirelensStack extends Stack {
       logging: fireLensLogDriver,
     });
 
-    const awsLogDriver = new ecs.AwsLogDriver({
-      streamPrefix: "pinnacleLogRouter",
-      mode: ecs.AwsLogDriverMode.NON_BLOCKING,
-    });
-
-    new ecs.ContainerDefinition(this, "ContainerDefinitionFluentBit", {
-      containerName: "LogRouter",
-      image: ContainerImage.fromRegistry(
-        "906394416424.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:stable"
-      ),
-      taskDefinition: fargateTaskDefinition,
-      essential: true,
-      logging: awsLogDriver,
-    });
+    const loadBalancedFargateService =
+      new ecsPatterns.ApplicationLoadBalancedFargateService(this, "Service", {
+        cluster,
+        memoryLimitMiB: 1024,
+        desiredCount: 1,
+        cpu: 512,
+        taskDefinition: fargateTaskDefinition,
+        loadBalancerName: "pinnacle-ecs-lb",
+      });
   }
 }
