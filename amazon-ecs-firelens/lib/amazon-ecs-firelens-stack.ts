@@ -31,8 +31,8 @@ export class AmazonEcsFirelensStack extends Stack {
       options: {
         Name: "cloudwatch",
         region: this.region,
-        log_group_name: "/aws/ecs/" + cluster.clusterName + "/application",
-        log_stream_name: "pinnacleWebServer",
+        log_group_name: "/aws/ecs/" + cluster.clusterName + "/webserver",
+        log_stream_name: "$(ecs_task_id)",
         auto_create_group: "true",
         retry_limit: "2",
       },
@@ -52,14 +52,13 @@ export class AmazonEcsFirelensStack extends Stack {
       logging: fireLensLogDriver,
     });
 
-    const loadBalancedFargateService =
-      new ecsPatterns.ApplicationLoadBalancedFargateService(this, "Service", {
-        cluster,
-        memoryLimitMiB: 1024,
-        desiredCount: 1,
-        cpu: 512,
-        taskDefinition: fargateTaskDefinition,
-        loadBalancerName: "pinnacle-ecs-lb",
-      });
+    new ecsPatterns.ApplicationLoadBalancedFargateService(this, "Service", {
+      cluster,
+      memoryLimitMiB: 1024,
+      desiredCount: 1,
+      cpu: 512,
+      taskDefinition: fargateTaskDefinition,
+      loadBalancerName: "pinnacle-ecs-lb",
+    });
   }
 }
