@@ -1,11 +1,12 @@
-import { Stack, StackProps } from "aws-cdk-lib";
-import { Construct } from "constructs";
+import { Fn, Stack, StackProps } from "aws-cdk-lib";
 import { Vpc } from "aws-cdk-lib/aws-ec2";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import { ContainerImage } from "aws-cdk-lib/aws-ecs";
 import * as ecsPatterns from "aws-cdk-lib/aws-ecs-patterns";
 
-export class AmazonEcsFirelensStack extends Stack {
+import { Construct } from "constructs";
+
+export class AmazonEcsFirelensKdfStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -13,18 +14,17 @@ export class AmazonEcsFirelensStack extends Stack {
       vpcName: "pinnacle",
     });
 
-    const cluster = new ecs.Cluster(this, "Cluster", {
+    const cluster = ecs.Cluster.fromClusterAttributes(this, "Cluster", {
       vpc: vpc,
-      clusterName: "pinnacle",
+      securityGroups: [],
+      clusterName: Fn.importValue("PinnacleEcsClusterName"),
     });
-
-    this.exportValue(cluster.clusterArn, { name: "PinnacleEcsClusterArn" });
-    this.exportValue(cluster.clusterName, { name: "PinnacleEcsClusterName" });
 
     const fargateTaskDefinition = new ecs.FargateTaskDefinition(
       this,
       "FargateTaskDefinition",
       {
+        family: "PinnacleEcsFirelensKdf",
         memoryLimitMiB: 512,
         cpu: 256,
       }
@@ -32,11 +32,9 @@ export class AmazonEcsFirelensStack extends Stack {
 
     const fireLensLogDriver = new ecs.FireLensLogDriver({
       options: {
-        Name: "cloudwatch",
+        Name: "firehose",
         region: this.region,
-        log_group_name: "/aws/ecs/" + cluster.clusterName + "/webserver",
-        log_stream_name: "$(ecs_task_id)",
-        auto_create_group: "true",
+        delivery_stream: "aws-ecs-" + cluster.clusterName,
         retry_limit: "2",
       },
       tag: "pinnacle",
@@ -57,11 +55,12 @@ export class AmazonEcsFirelensStack extends Stack {
 
     new ecsPatterns.ApplicationLoadBalancedFargateService(this, "Service", {
       cluster,
+      serviceName: "PinnacleEcsFirelensKdf",
       memoryLimitMiB: 1024,
       desiredCount: 1,
       cpu: 512,
       taskDefinition: fargateTaskDefinition,
-      loadBalancerName: "pinnacle-ecs-lb",
+      loadBalancerName: "pinnacle-ecs-firelens-kdf-lb",
     });
   }
 }
