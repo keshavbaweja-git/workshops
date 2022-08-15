@@ -41,3 +41,22 @@ git branch -vv
 ```
 git push origin --delete master
 ```
+
+# 8. Create develop branch
+```
+git checkout -b develop
+git branch -vv
+git push -u origin develop
+git branch -vv
+```
+# 9. Create .gitignore file
+```
+cat > .gitignore <<EOF
+**/target/
+EOF
+
+git status
+git add --all
+git commit -m "Added .gitignore"
+git push
+```
