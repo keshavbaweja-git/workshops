@@ -23,13 +23,13 @@ cd ~/git-base/aws-glue-samples.git
 git push --all ssh://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/data-lake-etl-jobs
 ```
 
-# 4. Pull data-lake-etl-jobs from CodeCommit
+# 5. Pull data-lake-etl-jobs from CodeCommit
 ```
 cd ~/git-base/data-lake-etl-jobs
 git pull
 ```
 
-# 5. Rename master branch to main
+# 6. Rename master branch to main
 ```
 git checkout master
 git branch -m master main
@@ -37,7 +37,7 @@ git push -u origin main
 git branch -vv
 ```
 
-# 5. Delete master branch
+# 7. Delete master branch
 ```
 git push origin --delete master
 ```
