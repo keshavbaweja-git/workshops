@@ -37,7 +37,7 @@ git push -u origin main
 git branch -vv
 ```
 
-# 5. Delete master branch to main
+# 5. Delete master branch
 ```
 git push origin --delete master
 ```
