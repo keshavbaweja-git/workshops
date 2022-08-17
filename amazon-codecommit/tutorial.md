@@ -60,3 +60,29 @@ git add --all
 git commit -m "Added .gitignore"
 git push
 ```
+
+# Appendix
+```
+# Check local repo status
+git status
+
+# Add all tracked and untraced files to Staging
+git add --all
+
+# Add all tracked and untraced files to Staging - Dry Run
+git add --all -n
+
+
+# Show current branch
+git branch --show-current
+
+# Show local branches
+git branch -vv
+
+# Show all (local and remote) branches
+git branch -a
+
+
+
+
+```
