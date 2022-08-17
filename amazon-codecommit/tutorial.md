@@ -75,6 +75,21 @@ git add --all -n
 # Restore from Staging area to Working Directory
 git restore --staged .
 
+# Commit staged changes to local repo
+git commit -m "commit message"
+
+# Revert the latest commit from local repo (not published to remote repo)
+# Changes are moved to Staging
+git reset --soft HEAD~1
+
+# Revert the latest commit from local repo (not published to remote repo)
+# Changes are moved to Working Dir
+git reset HEAD~1
+
+# Revert the latest commit from local repo (not published to remote repo)
+# Changes are lost
+git reset --hard HEAD~1
+
 # Show current branch
 git branch --show-current
 
@@ -83,8 +98,4 @@ git branch -vv
 
 # Show all (local and remote) branches
 git branch -a
-
-
-
-
 ```
