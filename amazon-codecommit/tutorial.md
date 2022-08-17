@@ -72,6 +72,8 @@ git add --all
 # Add all tracked and untraced files to Staging - Dry Run
 git add --all -n
 
+# Restore from Staging area to Working Directory
+git restore --staged .
 
 # Show current branch
 git branch --show-current
