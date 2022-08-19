@@ -84,4 +84,10 @@ git branch -vv
 
 # Show all (local and remote) branches
 git branch -a
+
+# Fetch updates from remote branch without merging into local branch
+git fetch
+
+# Fetch updates from remote branch and merge into local branch
+git pull
 ```
