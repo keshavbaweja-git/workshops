@@ -90,4 +90,7 @@ git fetch
 
 # Fetch updates from remote branch and merge into local branch
 git pull
+
+# Update all remote references
+git remote prune <remote-name>
 ```
