@@ -76,6 +76,10 @@ git reset HEAD~1
 # Changes are lost
 git reset --hard HEAD~1
 
+# Revert the latest commit from remote repo
+# This creates a new commit that reverts the latest commit
+git revert HEAD
+
 # Show current branch
 git branch --show-current
 
