@@ -49,6 +49,12 @@ git push
                        
 # Command reference
 ```
+# Initialize a local repo in current folder
+git init
+
+# Clone a remote repo
+git clone <remote-repo-url>
+
 # Check local repo status
 git status
 
