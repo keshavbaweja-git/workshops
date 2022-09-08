@@ -1,4 +1,5 @@
 import * as blueprints from "@aws-quickstart/eks-blueprints";
+import { ControlPlaneLogType } from "@aws-quickstart/eks-blueprints";
 import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { InstanceType } from "aws-cdk-lib/aws-ec2";
@@ -17,9 +18,11 @@ const platformTeam = new blueprints.PlatformTeam({
 const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.ArgoCDAddOn(),
   new blueprints.addons.AppMeshAddOn(),
-  new blueprints.addons.CalicoAddOn(),
   new blueprints.addons.MetricsServerAddOn(),
-  new blueprints.addons.ContainerInsightsAddOn(),
+  new blueprints.addons.CertManagerAddOn(),
+  new blueprints.addons.AdotCollectorAddOn(),
+  new blueprints.addons.CloudWatchAdotAddOn(),
+  new blueprints.addons.AwsForFluentBitAddOn(),
   new blueprints.addons.AwsLoadBalancerControllerAddOn(),
   new blueprints.addons.SecretsStoreAddOn(),
   new blueprints.addons.SSMAgentAddOn(),
@@ -48,22 +51,21 @@ const clusterProvider = new blueprints.GenericClusterProvider({
       diskSize: 25,
       nodeGroupSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
     },
-    {
-      id: "mng2",
-      amiType: NodegroupAmiType.AL2_X86_64,
-      instanceTypes: [new InstanceType("z1d.2xlarge")],
-      diskSize: 25,
-      nodeGroupSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
-    },
   ],
 });
 
 blueprints.EksBlueprint.builder()
-  .name("mycluster1")
+  .name("mycluster2")
   .account(account)
   .region(region)
   .addOns(...addOns)
   .clusterProvider(clusterProvider)
   .teams(platformTeam)
-  .enableControlPlaneLogTypes("api")
-  .build(app, "mycluster1");
+  .enableControlPlaneLogTypes(
+    ControlPlaneLogType.API,
+    ControlPlaneLogType.AUDIT,
+    ControlPlaneLogType.AUTHENTICATOR,
+    ControlPlaneLogType.CONTROLLER_MANAGER,
+    ControlPlaneLogType.SCHEDULER
+  )
+  .build(app, "mycluster2");
