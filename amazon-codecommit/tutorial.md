@@ -49,6 +49,12 @@ git push
                        
 # Command reference
 ```
+# Initialize a local repo in current folder
+git init
+
+# Clone a remote repo
+git clone <remote-repo-url>
+
 # Check local repo status
 git status
 
@@ -76,6 +82,10 @@ git reset HEAD~1
 # Changes are lost
 git reset --hard HEAD~1
 
+# Revert the latest commit from remote repo
+# This creates a new commit that reverts the latest commit
+git revert HEAD
+
 # Show current branch
 git branch --show-current
 
@@ -84,4 +94,13 @@ git branch -vv
 
 # Show all (local and remote) branches
 git branch -a
+
+# Fetch updates from remote branch without merging into local branch
+git fetch
+
+# Fetch updates from remote branch and merge into local branch
+git pull
+
+# Update all remote references
+git remote prune <remote-name>
 ```
