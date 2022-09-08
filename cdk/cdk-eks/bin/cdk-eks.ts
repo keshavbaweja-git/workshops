@@ -1,5 +1,8 @@
 import * as blueprints from "@aws-quickstart/eks-blueprints";
-import { ControlPlaneLogType } from "@aws-quickstart/eks-blueprints";
+import {
+  cloudWatchDeploymentMode,
+  ControlPlaneLogType,
+} from "@aws-quickstart/eks-blueprints";
 import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { InstanceType } from "aws-cdk-lib/aws-ec2";
@@ -9,6 +12,7 @@ import { ArnPrincipal } from "aws-cdk-lib/aws-iam";
 const app = new cdk.App();
 const account = process.env.CDK_ACCOUNT_ID;
 const region = process.env.CDK_REGION;
+const clusterName = "mycluster3";
 
 const platformTeam = new blueprints.PlatformTeam({
   name: "platform-admin",
@@ -21,7 +25,9 @@ const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.MetricsServerAddOn(),
   new blueprints.addons.CertManagerAddOn(),
   new blueprints.addons.AdotCollectorAddOn(),
-  new blueprints.addons.CloudWatchAdotAddOn(),
+  new blueprints.addons.CloudWatchAdotAddOn({
+    deploymentMode: cloudWatchDeploymentMode.DAEMONSET,
+  }),
   new blueprints.addons.AwsForFluentBitAddOn(),
   new blueprints.addons.AwsLoadBalancerControllerAddOn(),
   new blueprints.addons.SecretsStoreAddOn(),
@@ -47,15 +53,18 @@ const clusterProvider = new blueprints.GenericClusterProvider({
     {
       id: "mng1",
       amiType: NodegroupAmiType.AL2_X86_64,
-      instanceTypes: [new InstanceType("m5zn.2xlarge")],
+      instanceTypes: [new InstanceType("c6i.xlarge")],
       diskSize: 25,
       nodeGroupSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
+      minSize: 1,
+      maxSize: 3,
+      desiredSize: 3,
     },
   ],
 });
 
 blueprints.EksBlueprint.builder()
-  .name("mycluster2")
+  .name(clusterName)
   .account(account)
   .region(region)
   .addOns(...addOns)
@@ -68,4 +77,4 @@ blueprints.EksBlueprint.builder()
     ControlPlaneLogType.CONTROLLER_MANAGER,
     ControlPlaneLogType.SCHEDULER
   )
-  .build(app, "mycluster2");
+  .build(app, clusterName);
