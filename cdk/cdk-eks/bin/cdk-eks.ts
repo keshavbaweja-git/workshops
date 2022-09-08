@@ -2,6 +2,7 @@ import * as blueprints from "@aws-quickstart/eks-blueprints";
 import {
   cloudWatchDeploymentMode,
   ControlPlaneLogType,
+  xrayDeploymentMode,
 } from "@aws-quickstart/eks-blueprints";
 import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
@@ -45,6 +46,9 @@ const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.KubeviousAddOn(),
   new blueprints.addons.EbsCsiDriverAddOn(),
   new blueprints.addons.EfsCsiDriverAddOn({ replicaCount: 1 }),
+  new blueprints.addons.XrayAdotAddOn({
+    deploymentMode: xrayDeploymentMode.DAEMONSET,
+  }),
 ];
 
 const clusterProvider = new blueprints.GenericClusterProvider({
