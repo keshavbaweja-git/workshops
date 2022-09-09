@@ -2,7 +2,6 @@ import * as blueprints from "@aws-quickstart/eks-blueprints";
 import {
   cloudWatchDeploymentMode,
   ControlPlaneLogType,
-  xrayDeploymentMode,
 } from "@aws-quickstart/eks-blueprints";
 import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
