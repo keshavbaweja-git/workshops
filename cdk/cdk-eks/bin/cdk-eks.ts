@@ -29,7 +29,18 @@ const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.CloudWatchAdotAddOn({
     deploymentMode: cloudWatchDeploymentMode.DAEMONSET,
   }),
-  new blueprints.addons.AwsForFluentBitAddOn(),
+  new blueprints.addons.AwsForFluentBitAddOn({
+    values: {
+      cloudWatch: {
+        region: region,
+        logGroupName: "/aws/containerinsights/" + clusterName + "/application",
+        logStreamPrefix: "${HOST_NAME}-",
+      },
+      firehose: { enabled: false },
+      kinesis: { enabled: false },
+      elasticsearch: { enabled: false },
+    },
+  }),
   new blueprints.addons.AwsLoadBalancerControllerAddOn(),
   new blueprints.addons.SecretsStoreAddOn(),
   new blueprints.addons.SSMAgentAddOn(),
@@ -46,6 +57,7 @@ const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.KubeviousAddOn(),
   new blueprints.addons.EbsCsiDriverAddOn(),
   new blueprints.addons.EfsCsiDriverAddOn({ replicaCount: 1 }),
+  new blueprints.addons.XrayAddOn(),
   new blueprints.addons.XrayAdotAddOn({
     deploymentMode: xrayDeploymentMode.DAEMONSET,
   }),
