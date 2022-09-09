@@ -45,10 +45,6 @@ const addOns: Array<blueprints.ClusterAddOn> = [
   new blueprints.addons.KubeviousAddOn(),
   new blueprints.addons.EbsCsiDriverAddOn(),
   new blueprints.addons.EfsCsiDriverAddOn({ replicaCount: 1 }),
-  new blueprints.addons.XrayAddOn(),
-  new blueprints.addons.XrayAdotAddOn({
-    deploymentMode: xrayDeploymentMode.DAEMONSET,
-  }),
 ];
 
 const clusterProvider = new blueprints.GenericClusterProvider({
