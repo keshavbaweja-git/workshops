@@ -60,6 +60,12 @@ const clusterProvider = new blueprints.GenericClusterProvider({
       desiredSize: 3,
     },
   ],
+  fargateProfiles: {
+    fp1: {
+      fargateProfileName: "fp1",
+      selectors: [{ namespace: "fp1" }],
+    },
+  },
 });
 
 blueprints.EksBlueprint.builder()
