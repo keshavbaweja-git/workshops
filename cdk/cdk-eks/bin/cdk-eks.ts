@@ -63,7 +63,7 @@ const clusterProvider = new blueprints.GenericClusterProvider({
   fargateProfiles: {
     fp1: {
       fargateProfileName: "fp1",
-      selectors: [{ namespace: "fp1" }],
+      selectors: [{ namespace: "fp1" }, { namespace: "game-2048" }],
     },
   },
 });
