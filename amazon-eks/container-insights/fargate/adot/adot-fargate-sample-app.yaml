@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-prom
+  namespace: fp1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-prom
+  template:
+    metadata:
+      labels:
+        app: sample-prom
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '3000'
+        prometheus.io/path: '/metrics'
+    spec:
+      containers:
+        - name: sample-prom
+          image: public.ecr.aws/awsvijisarathy/prometheus-webapp:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "256m"
+              memory: "512Mi"
+            limits:
+              cpu: "512m"
+              memory: "1024Mi"
