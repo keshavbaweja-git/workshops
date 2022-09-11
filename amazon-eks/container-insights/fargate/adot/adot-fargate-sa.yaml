@@ -1,0 +1,12 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: fargate-container-insights
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: adot-collector
+  namespace: fargate-container-insights
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::646297494209:role/AdotCollectorFargate"

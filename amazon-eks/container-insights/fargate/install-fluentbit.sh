@@ -3,7 +3,7 @@
 ClusterName=mycluster3
 RegionName=ap-southeast-1
 FargateProfileName=fp1
-AccountId=646297494209
+AccountId=$(aws sts get-caller-identity --query "Account" --output text)
 PodExecutionRoleName=$(aws eks describe-fargate-profile --cluster-name $ClusterName --fargate-profile-name $FargateProfileName --query fargateProfile.podExecutionRoleArn --output text | cut -d "/" -f 2)
 echo "PodExecutionRoleName: $PodExecutionRoleName"
 
