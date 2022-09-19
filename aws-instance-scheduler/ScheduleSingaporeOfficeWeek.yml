@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09 
+Metadata:
+  'AWS::CloudFormation::Designer': {}
+Resources:
+  SingaporeOfficeWeek:
+    Type: 'Custom::ServiceInstanceSchedule'
+    Properties:
+      Name: SingaporeOfficeWeek
+      NoStackPrefix: 'True'
+      Description: Office weeks in Singapore
+      ServiceToken: >-
+        arn:aws:lambda:ap-southeast-1:646297494209:function:AWSInstanceScheduler-InstanceSchedulerMain
+      Enforced: 'True'
+      Hibernate: 'True'
+      Timezone: Asia/Singapore
+      Periods:
+        - Description: Begin Monday
+          BeginTime: '08:00'
+          EndTime: '23:59'
+          WeekDays: Mon
+        - Description: Tues-Thurs
+          WeekDays: Tues-Thurs          
+        - Description: End Friday
+          BeginTime: '00:00'
+          EndTime: '18:00'
+          WeekDays: Fri
