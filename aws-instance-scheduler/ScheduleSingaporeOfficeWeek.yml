@@ -9,7 +9,7 @@ Resources:
       NoStackPrefix: 'True'
       Description: Office weeks in Singapore
       ServiceToken: >-
-        arn:aws:lambda:ap-southeast-1:646297494209:function:AWSInstanceScheduler-InstanceSchedulerMain
+        arn:aws:lambda:ap-southeast-1:<account-id>:function:AWSInstanceScheduler-InstanceSchedulerMain
       Enforced: 'True'
       Hibernate: 'True'
       Timezone: Asia/Singapore
