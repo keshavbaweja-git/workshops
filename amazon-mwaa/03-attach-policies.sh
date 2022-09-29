@@ -1,4 +1,4 @@
-mwaa_iam_role=AmazonMWAA-MyAirflowEnvironment-o0Ddkg
+mwaa_iam_role=AmazonMWAA-MyAirflowEnvironment-WD4gNN
 
 aws iam attach-role-policy \
 --role-name $mwaa_iam_role \
