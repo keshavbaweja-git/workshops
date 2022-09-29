@@ -47,3 +47,8 @@ glue_crawler = AwsGlueCrawlerOperator(
     config=config,
     dag=dag)
 
+glue_task = AwsGlueJobOperator(
+    task_id="glue_task",
+    job_name='nyc-raw-to-transform-2',
+    iam_role_name='AWSGlueServiceRoleDefault',
+    dag=dag)
