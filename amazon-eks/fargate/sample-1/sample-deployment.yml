@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mynginx2
+    project: tiger
+  name: mynginx2
+  namespace: fp2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mynginx2
+      project: tiger
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mynginx2
+        project: tiger
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
