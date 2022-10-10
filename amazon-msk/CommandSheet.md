@@ -19,12 +19,26 @@ export PATH=$PATH:/usr/local/aws-cli/v2/current/bin
 
 ## 4. Add Kafka binaries to PATH
 ```
-export PATH=$PATH:/home/ec2-user/kafka/bin
+cd /home/ec2-user/environment
+curl https://archive.apache.org/dist/kafka/3.2.0/kafka_2.13-3.2.0.tgz --output kafka_2.13-3.2.0.tgz
+tar -xzf kafka_2.13-3.2.0.tgz
+export PATH=$PATH:/home/ec2-user/environment/kafka_2.13-3.2.0/bin
 ```
 
-
+## 5. Add AWS MSK IAM library to classpath
+```
+curl -k -o aws-msk-iam-auth-1.1.4-all.jar https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.4/aws-msk-iam-auth-1.1.4-all.jar
+mv aws-msk-iam-auth-1.1.4-all.jar kafka_2.13-3.2.0/libs/
+```
+## 6. Create client properties file
+```
+security.protocol=SASL_SSL
+sasl.mechanism=AWS_MSK_IAM
+sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
+sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
+```
 # Cluster environment variables
-## 5. Export Amazon MSK Cluster ARN
+## 7. Export Amazon MSK Cluster ARN
 ```
 # List Cluster ARN and name
 aws kafka list-clusters | jq '[.ClusterInfoList[] | {ClusterArn, ClusterName}]'
@@ -33,60 +47,58 @@ aws kafka list-clusters | jq '[.ClusterInfoList[] | {ClusterArn, ClusterName}]'
 export CLUSTER_ARN=$(aws kafka list-clusters | jq -r '.ClusterInfoList[] | select(.ClusterName == "MSKWorkshopCluster") | .ClusterArn')
 ```
 
-## 6. View Amazon MSK Cluster Information
+## 8. View Amazon MSK Cluster Information
 ```
 aws kafka describe-cluster --cluster-arn $CLUSTER_ARN | jq '.'
 ```
 
-## 7. Export Kafka brokers
+## 9. Export Kafka brokers
 ```
 export MY_BROKERS=$(aws kafka  get-bootstrap-brokers --cluster-arn $CLUSTER_ARN | jq -r '.BootstrapBrokerString')
 
 export MY_BROKERS_TLS=$(aws kafka  get-bootstrap-brokers --cluster-arn $CLUSTER_ARN | jq -r '.BootstrapBrokerStringTls')
 ```
 
-## 8. Export Zookeeper servers
+## 10. Export Zookeeper servers
 ```
 export MY_ZK=$(aws kafka describe-cluster --cluster-arn $CLUSTER_ARN | jq -r '.ClusterInfo.ZookeeperConnectString')
 ```
 
 # Topic management
-## 9. Create topic
+## 11. Create topic
 ```
-kafka-topics.sh \
---zookeeper $MY_ZK \
---create \
---topic ExampleTopic10 \
---partitions 10 \
---replication-factor 3
-
-kafka-topics.sh \
---zookeeper $MY_ZK \
---create \
---topic TestAclFail \
---partitions 10 \
---replication-factor 3
+kafka-topics.sh --create --topic product \
+--bootstrap-server $MY_BROKERS \
+--command-config ~/environment/kafka-client.properties
 ```
 
-## 10. Describe topic
+## 12. Describe topic
 ```
-kafka-topics.sh --zookeeper $MY_ZK --describe
-kafka-topics.sh --zookeeper $MY_ZK --describe --topic ExampleTopic10
-```
-
-## 11. Start Kafka console producer
-```
-kafka-console-producer.sh --broker-list $MY_BROKERS --topic ExampleTopic10
+kafka-topics.sh --describe --topic product \
+--bootstrap-server $MY_BROKERS \
+--command-config ./kafka-client.properties
 ```
 
-## 12. Start Kafka console consumer
+## 13. Start Kafka console producer
 ```
-kafka-console-consumer.sh --bootstrap-server $MY_BROKERS --topic ExampleTopic10 --from-beginning
+kafka-console-producer.sh --topic product \
+--bootstrap-server $MY_BROKERS \
+--producer.config ./kafka-client.properties
 ```
 
-## 13. Delete topic
+## 14. Start Kafka console consumer
 ```
-kafka-topics.sh --zookeeper $MY_ZK --delete --topic ExampleTopic10
+kafka-console-consumer.sh --topic product \
+--bootstrap-server $MY_BROKERS \
+--consumer.config ./kafka-client.properties \
+--from-beginning
+```
+
+## 15. Delete topic
+```
+kafka-topics.sh --delete --topic product \
+--bootstrap-server $MY_BROKERS \
+--command-config ~/environment/kafka-client.properties
 ```
 
 # Partition Reassignment
