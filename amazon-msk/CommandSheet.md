@@ -27,7 +27,7 @@ export PATH=$PATH:/home/ec2-user/environment/kafka_2.13-3.2.0/bin
 
 ## 5. Add AWS MSK IAM library to classpath
 ```
-curl -k -o aws-msk-iam-auth-1.1.4-all.jar https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.4/aws-msk-iam-auth-1.1.4-all.jar
+wget https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.4/aws-msk-iam-auth-1.1.4-all.jar
 mv aws-msk-iam-auth-1.1.4-all.jar kafka_2.13-3.2.0/libs/
 ```
 ## 6. Create client properties file
