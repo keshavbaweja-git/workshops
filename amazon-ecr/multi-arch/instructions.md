@@ -2,6 +2,7 @@
 ```
 npm install
 ```
+
 ## Authenticate to ECR
 ```
 aws_account_id=$(aws sts get-caller-identity --query Account --output text)
