@@ -30,16 +30,10 @@ const projectATeam = new blueprints.ApplicationTeam({
 const teams: Array<blueprints.Team> = [platformTeam, projectATeam];
 
 const addOns: Array<blueprints.ClusterAddOn> = [
-  new blueprints.addons.ArgoCDAddOn(),
-  new blueprints.addons.AppMeshAddOn(),
   new blueprints.addons.MetricsServerAddOn(),
   new blueprints.addons.CertManagerAddOn(),
   new blueprints.addons.AdotCollectorAddOn(),
-  new blueprints.addons.CloudWatchAdotAddOn({
-    deploymentMode: cloudWatchDeploymentMode.DAEMONSET,
-  }),
   new blueprints.addons.AwsLoadBalancerControllerAddOn(),
-  new blueprints.addons.OpaGatekeeperAddOn(),
   new blueprints.addons.CalicoOperatorAddOn(),
   new blueprints.addons.SecretsStoreAddOn(),
   new blueprints.addons.SSMAgentAddOn(),
@@ -48,12 +42,10 @@ const addOns: Array<blueprints.ClusterAddOn> = [
       controller: { service: { create: false } },
     },
   }),
-  new blueprints.addons.VeleroAddOn(),
   new blueprints.addons.VpcCniAddOn(),
   new blueprints.addons.CoreDnsAddOn(),
   new blueprints.addons.KubeProxyAddOn(),
   new blueprints.addons.ClusterAutoScalerAddOn(),
-  new blueprints.addons.KubeviousAddOn(),
   new blueprints.addons.EbsCsiDriverAddOn(),
   new blueprints.addons.EfsCsiDriverAddOn({ replicaCount: 1 }),
 ];
