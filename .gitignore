@@ -4,3 +4,4 @@ target/
 cdk.out/
 .DS_Store
 node_modules/
+aws-app-mesh-examples/
