@@ -9,6 +9,12 @@ aws iam create-policy \
 --policy-document file://envoy-iam-policy.json
 echo "Created IAM policy for envoy sidecar permissions"
 
+
+APPMESHED_NAMESPACE_NAME=prod
+MESH_NAME=dj-app
+
+k create ns $APPMESHED_NAMESPACE_NAME
+
 # Create an IAM role and service account for the application namespace
 # Add an Annotation to the k8s sa eks.amazonaws.com/role-arn
 eksctl create iamserviceaccount \
@@ -20,5 +26,5 @@ eksctl create iamserviceaccount \
 --approve
 echo "Updated IAM role for default SA with envoy policy"
 
-kubectl label namespace $APPMESHED_NAMESPACE_NAME mesh=$APPMESHED_NAMESPACE_NAME
+kubectl label namespace $APPMESHED_NAMESPACE_NAME mesh=$MESH_NAME
 kubectl label namespace $APPMESHED_NAMESPACE_NAME appmesh.k8s.aws/sidecarInjectorWebhook=enabled
