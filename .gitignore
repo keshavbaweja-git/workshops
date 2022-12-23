@@ -5,3 +5,4 @@ cdk.out/
 .DS_Store
 node_modules/
 aws-app-mesh-examples/
+eks-app-mesh-polyglot-demo/
