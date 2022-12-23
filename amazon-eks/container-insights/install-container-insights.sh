@@ -1,5 +1,9 @@
 #!/bin/bash
 
+CLUSTER_NAME=mycluster5
+NODEGROUP_NAME=mng1
+NODE_ROLE_NAME=$(aws eks describe-nodegroup --nodegroup-name $NODEGROUP_NAME --cluster-name $CLUSTER_NAME | jq -r .nodegroup.nodeRole | cut -d "/" -f 2)
+
 aws iam attach-role-policy \
 --role-name $NODE_ROLE_NAME \
 --policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
@@ -10,7 +14,7 @@ aws iam list-attached-role-policies \
 
 
 ClusterName=$CLUSTER_NAME
-RegionName=$AWS_REGION
+RegionName=ap-southeast-1
 FluentBitHttpPort='2020'
 FluentBitReadFromHead='Off'
 [[ ${FluentBitReadFromHead} = 'On' ]] && FluentBitReadFromTail='Off'|| FluentBitReadFromTail='On'
