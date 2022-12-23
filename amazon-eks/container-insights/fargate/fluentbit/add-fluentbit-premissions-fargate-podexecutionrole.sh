@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ClusterName=mycluster3
+ClusterName=mycluster5
 RegionName=ap-southeast-1
-FargateProfileName=fp1
+FargateProfileName=fargate-productcatalog
 AccountId=$(aws sts get-caller-identity --query "Account" --output text)
 PodExecutionRoleName=$(aws eks describe-fargate-profile --cluster-name $ClusterName --fargate-profile-name $FargateProfileName --query fargateProfile.podExecutionRoleArn --output text | cut -d "/" -f 2)
 echo "PodExecutionRoleName: $PodExecutionRoleName"
@@ -20,4 +20,3 @@ aws iam attach-role-policy \
 --role-name $PodExecutionRoleName \
 --policy-arn arn:aws:iam::$AccountId:policy/FluentBitEKSFargate
 
-kubectl apply -f fluentbit.yaml
