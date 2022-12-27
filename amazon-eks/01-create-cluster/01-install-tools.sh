@@ -17,7 +17,7 @@ rm -rf /tmp/awscliv2.zip
 echo "Installed aws cli v2"
 
 sudo curl --silent --location -o /usr/local/bin/kubectl \
-https://dl.k8s.io/release/v1.22.0/bin/linux/amd64/kubectl
+https://dl.k8s.io/release/v1.23.0/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 echo "Installed kubectl"
 
