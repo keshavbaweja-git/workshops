@@ -1,7 +1,5 @@
 #!/bin/bash
 
-helm repo add eks https://aws.github.io/eks-charts
-
 kubectl apply -k "https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master"
 echo "Installed appmesh-controller CRDs"
 
@@ -16,6 +14,8 @@ eksctl create iamserviceaccount \
 --override-existing-serviceaccounts \
 --approve
 echo "Created serviceAccount with IAM role for appmesh-controller"
+
+helm repo add eks https://aws.github.io/eks-charts
 
 helm upgrade -i appmesh-controller eks/appmesh-controller \
 --namespace appmesh-system \
