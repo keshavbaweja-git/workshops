@@ -1,8 +1,8 @@
 apiVersion: appmesh.k8s.aws/v1beta2
 kind: Mesh
 metadata:
-  name: test01
+  name: mesh01
 spec:
   namespaceSelector:
     matchLabels:
-      mesh: test01
+      mesh: mesh01
