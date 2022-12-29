@@ -1,30 +1,51 @@
 #!/bin/bash
 
-# Download the IAM policy document for the Envoy proxies
-curl -o envoy-iam-policy.json https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/config/iam/envoy-iam-policy.json
+# Check required environment variables are set
+if [[ -z "$ACCOUNT_ID" ]]; then
+    echo "Exiting, please set ACCOUNT_ID environment variable" 1>&2
+    exit 1
+fi
 
-# Create an IAM policy for the proxies from the policy document
+if [[ -z "$CLUSTER_NAME" ]]; then
+    echo "Exiting, please set CLUSTER_NAME environment variable" 1>&2
+    exit 1
+fi
+
+if [[ -z "$MESH_NAME" ]]; then
+    echo "Exiting, please set MESH_NAME environment variable" 1>&2
+    exit 1
+fi
+
+if [[ -z "$APPMESHED_K8S_NAMESPACE" ]]; then
+    echo "Exiting, please set APPMESHED_K8S_NAMESPACE environment variable" 1>&2
+    exit 1
+fi
+
+set -ex
+
+# Download the IAM policy document for the Envoy proxies
+curl -o envoy-iam-policy.json \
+https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/config/iam/envoy-iam-policy.json
+
+# Create an IAM policy for Envoy proxies from the IAM policy document
 aws iam create-policy \
 --policy-name AWSAppMeshEnvoySidecarIAMPolicy \
 --policy-document file://envoy-iam-policy.json
 echo "Created IAM policy for envoy sidecar permissions"
 
+# Create K8s namespace
+kubectl create ns $APPMESHED_K8S_NAMESPACE
 
-APPMESHED_NAMESPACE_NAME=prod
-MESH_NAME=dj-app
-
-k create ns $APPMESHED_NAMESPACE_NAME
-
-# Create an IAM role and service account for the application namespace
-# Add an Annotation to the k8s sa eks.amazonaws.com/role-arn
+# Create IRSA for default ServiceAccount
 eksctl create iamserviceaccount \
 --cluster $CLUSTER_NAME \
---namespace $APPMESHED_NAMESPACE_NAME \
+--namespace $APPMESHED_K8S_NAMESPACE \
 --name default \
 --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSAppMeshEnvoySidecarIAMPolicy  \
 --override-existing-serviceaccounts \
 --approve
 echo "Updated IAM role for default SA with envoy policy"
 
-kubectl label namespace $APPMESHED_NAMESPACE_NAME mesh=$MESH_NAME
-kubectl label namespace $APPMESHED_NAMESPACE_NAME appmesh.k8s.aws/sidecarInjectorWebhook=enabled
+# Label the namespace
+kubectl label namespace $APPMESHED_K8S_NAMESPACE mesh=$MESH_NAME
+kubectl label namespace $APPMESHED_K8S_NAMESPACE appmesh.k8s.aws/sidecarInjectorWebhook=enabled
