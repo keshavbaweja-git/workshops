@@ -1,5 +1,7 @@
-ACCOUNT_ID=$(aws sts get-caller-identity | jq -r .Account)
+#!/bin/bash
 
+set -ex
+ACCOUNT_ID=$(aws sts get-caller-identity | jq -r .Account)
 bucket_name=$ACCOUNT_ID-pinnacle-mwaa
 
 aws s3 mb s3://$bucket_name

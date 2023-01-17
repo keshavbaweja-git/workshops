@@ -56,7 +56,7 @@ const clusterProvider = new blueprints.GenericClusterProvider({
     {
       id: "mng1",
       amiType: NodegroupAmiType.AL2_X86_64,
-      instanceTypes: [new InstanceType("c6i.xlarge")],
+      instanceTypes: [new InstanceType("c6i.2xlarge")],
       diskSize: 25,
       nodeGroupSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       minSize: 1,
