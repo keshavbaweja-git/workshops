@@ -1,0 +1,1 @@
+k run my-tomcat --image=tomcat:8.5-jdk8-corretto --expose --port=8080
