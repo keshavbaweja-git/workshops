@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: my-tomcat
+  name: my-tomcat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-tomcat
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: my-tomcat
+    spec:
+      containers:
+      - image: tomcat:8.5-jdk8-corretto
+        name: my-tomcat
+        resources: {}
+        envFrom:
+          - secretRef:
+              name: my-secret
+        volumeMounts:
+          - mountPath: /var/run/secrets/my-tomcat
+            name: my-secret
+      volumes:
+       - name: my-secret
+         secret:
+           secretName: my-secret
+           optional: false
