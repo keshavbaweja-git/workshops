@@ -10,4 +10,7 @@ sequenceDiagram
     idc->>idc: Generates SAML request
     idc->>user: Redirects response
     user->>eidp: Browser relays request
+    user->>eidp: User authenticates
+    eidp->>eidp: Generates SAML response
+    eidp->>user: Redirects response
 ```
