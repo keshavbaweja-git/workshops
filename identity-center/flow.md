@@ -7,4 +7,5 @@ sequenceDiagram
     participant sts as AWS Security Token Service
     autonumber
     user->>idc: User browses to IDC Start URL
+    idc->>idc: Generates SAML request
 ```
