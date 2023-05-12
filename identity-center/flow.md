@@ -1,6 +1,10 @@
 ```mermaid
 sequenceDiagram
-    participant External IdP as eidp
+    participant eidp as External IdP
+    actor user as External User
+    participant idc as AWS Identity Center
+    participant account as AWS Account
+    participant sts as AWS Security Token Service
     autonumber
 
     Alice->>John: Hello John, how are you?
