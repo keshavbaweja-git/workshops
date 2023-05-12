@@ -8,4 +8,5 @@ sequenceDiagram
     autonumber
     user->>idc: User browses to IDC Start URL
     idc->>idc: Generates SAML request
+    idc-->user: Redirects response
 ```
